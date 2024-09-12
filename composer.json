@@ -1,0 +1,27 @@
+{
+    "name": "zeroshotlabs/libphphi",
+    "description": "Base trait and helpers for working with PHP FFI modules.",
+    "keywords": ["posix", "ffi", "binding", "libffi", "traits", "oop"],
+    "license": "gpl-3.0-or-later",
+    "homepage": "https://zsl.ai",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Zero Shot Labs, Inc.",
+            "email": "opensource@zsl.ai"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/zeroshotlabs/libphphi.git"
+        }
+    ],
+    "require": {
+        "php": ">=8.3",
+        "ext-ffi": "*"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
+
