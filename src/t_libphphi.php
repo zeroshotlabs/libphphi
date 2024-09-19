@@ -29,27 +29,24 @@ trait libphphi
     /* void c2php(void); */
 
 
-    // @todo secondary load_so()?
-    // generally a module will have libphphi linked so this shouldn't be needed
-    function _phphi_init(): bool
-    {
-        if( empty($this->libphphi_so) )
-            $this->libphphi_so = LIBPHPHI_ROOT."/lib/libphphi.so";
+    // // @todo secondary load_so()?
+    // // generally a module will have libphphi linked so this shouldn't be needed
+    // function _phphi_init(): bool
+    // {
+    //     if( empty($this->libphphi_so) )
+    //         $this->libphphi_so = LIBPHPHI_ROOT."/lib/libphphi.so";
 
-        if( !is_readable($this->libphphi_so))
-            throw new Exception("libphphi.so not readable from '".$this->libphphi_so."'");
+    //     if( !is_readable($this->libphphi_so))
+    //         throw new Exception("libphphi.so not readable or efrom '".$this->libphphi_so."'");
 
-        if( defined('_DEBUG') )
-            $this->show_limits();
+    //     if( defined('_DEBUG') )
+    //         $this->show_limits();
 
-        return true;
-    }
+    //     return true;
+    // }
 
     public function set_consts()
     {
-        if( empty($this->ffi) )
-            $this->ffi_init();
-
         $this->ffi->c2php_common_consts();
     }
 
@@ -76,7 +73,7 @@ trait libphphi
         return "ERROR ($errno): ".FFI::string($strerror);
     }
 
-    // not fully tested - not used
+    // not fully tested - not currently used
     public function ch_sysctl( string $path, int $value ): bool
     {
         if( stripos($path, 'size') !== false  )
@@ -128,9 +125,6 @@ trait libphphi
     // infinity may not work
     public function _set_rlimit( int $limit_type,float $limit = RLIM_INFINITY ): bool
     {
-        if( empty($this->ffi) )
-            $this->ffi_init();
-
         $rlimit = $this->ffi->new("struct rlimit");
 
         if( !in_array($limit_type,[RLIMIT_NOFILE,RLIMIT_MSGQUEUE],true) )
