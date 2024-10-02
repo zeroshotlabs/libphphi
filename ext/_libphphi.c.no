@@ -1,0 +1,29 @@
+#define _GNU_SOURCE
+#include "zend.h"
+#include "php.h"
+
+#include "libphphi.h"
+
+
+
+/* void c2php(void); */
+
+void _c2php_const(const char *name, long value)
+{
+    zend_register_long_constant(name, strlen(name), value, CONST_CS | CONST_PERSISTENT, 0);
+}
+
+
+void c2php_libphphi_consts()
+{
+    _c2php_const("RLIM_INFINITY", RLIM_INFINITY);
+    _c2php_const("RLIMIT_MSGQUEUE", RLIMIT_MSGQUEUE);
+    _c2php_const("RLIMIT_NOFILE", RLIMIT_NOFILE);
+    _c2php_const("O_RDONLY", O_RDONLY);
+    _c2php_const("O_WRONLY", O_WRONLY);
+    _c2php_const("O_RDWR", O_RDWR);
+    _c2php_const("O_CREAT", O_CREAT);
+    _c2php_const("O_EXCL", O_EXCL);
+    _c2php_const("O_NONBLOCK", O_NONBLOCK);
+}
+

@@ -1,31 +1,15 @@
 <?php declare(strict_types=1);
-namespace zeroshotlabs\libphphi;
-
+namespace zsl\libphphi;
 
 use \Exception;
 use \FFI;
 use \FFI\CData as cdata;
 
 
-trait libphphi
+trait t_libphphi
 {
-    const O_RDONLY    = 0x00;
-    const O_WRONLY    = 0x01;
-    const O_RDWR      = 0x02;
-    const O_CREAT     = 0x40;
-    const O_EXCL      = 0x80;
-    const O_NONBLOCK  = 0x800;
 
-    const SIGRTMIN = 34;
-    const SIG_BLOCK = 0;
-    const SIGEV_SIGNAL = 0;
-
-    const S_IRUSR = 256;
-    const S_IWUSR = 128;
-
-    public ?ffi $ffi = null;
-
-    public string $libphphi_so = '';
+//    public string $libphphi_so = '';
     /* void c2php(void); */
 
 
@@ -45,10 +29,6 @@ trait libphphi
     //     return true;
     // }
 
-    public function set_consts()
-    {
-        $this->ffi->c2php_common_consts();
-    }
 
     public function zerod( cdata $ffi_struct,int $size = 0 ): void
     {
@@ -62,19 +42,19 @@ trait libphphi
 
     public function errno(): int
     {
-        return FFI::addr($this->ffi->errno)[0]??0;
+        return intval(FFI::addr($this->ffi->errno)[0])??0;
     }
 
     public function strerror( int $errno = 0 ): string
     {
-        $errno = $errno===0?$this->ffi->errno():$errno;
+        $errno = $errno===0?$this->errno():$errno;
         $strerror = $this->ffi->strerror($errno);
 
         return "ERROR ($errno): ".FFI::string($strerror);
     }
 
     // not fully tested - not currently used
-    public function ch_sysctl( string $path, int $value ): bool
+    public static function ch_sysctl( string $path, int $value ): bool
     {
         if( stripos($path, 'size') !== false  )
             $paths = ['/proc/sys/fs/mqueue/msgsize_default','/proc/sys/fs/mqueue/msgsize_max'];
@@ -94,7 +74,7 @@ trait libphphi
         return true;
     }
 
-    public function show_limits( $ret = false ): string|null
+    public static function show_limits( $ret = false ): string|null
     {
         $buf = "\n\n==== Limits for PID ".posix_getpid().
                "\n\n".file_get_contents('/proc/self/limits').
@@ -152,4 +132,5 @@ trait libphphi
         return true;
     }
 }
+
 
